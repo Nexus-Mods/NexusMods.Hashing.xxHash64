@@ -14,8 +14,6 @@ public class StreamExtensionTests
         random.NextBytes(_buffer);
     }
 
-    // TODO Fix this
-    /*
     [Fact]
     public async Task CanHashStreams()
     {
@@ -46,5 +44,4 @@ public class StreamExtensionTests
         var bytes = System.IO.Hashing.XxHash64.Hash(data);
         return Hash.From(BinaryPrimitives.ReadUInt64BigEndian(bytes));
     }
-    */
 }

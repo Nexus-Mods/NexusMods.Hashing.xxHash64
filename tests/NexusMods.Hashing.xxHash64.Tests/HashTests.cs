@@ -55,8 +55,6 @@ public class HashTests
             .Should().Be(_knownHash);
     }
 
-    // *TODO fix this
-    /*
     [Fact]
     public async Task CanHashFile()
     {
@@ -77,5 +75,5 @@ public class HashTests
         await file.WriteAllBytesAsync(emptyArray);
         (await file.XxHash64Async()).Should().NotBe(Hash.FromULong(0xf4c92be058f432d0));
         file.Delete();
-    } */
+    }
 }
