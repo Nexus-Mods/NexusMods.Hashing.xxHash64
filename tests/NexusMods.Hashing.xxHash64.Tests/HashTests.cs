@@ -1,4 +1,3 @@
-using FluentAssertions;
 using NexusMods.Paths;
 
 namespace NexusMods.Hashing.xxHash64.Tests;
@@ -7,12 +6,7 @@ public class HashTests
 {
     private static string _knownString = "Something clever should go here";
     private static Hash _knownHash = Hash.FromHex("F4C92BE058F432D0");
-    private readonly IFileSystem _fileSystem;
-
-    public HashTests()
-    {
-        _fileSystem = FileSystem.Shared;
-    }
+    private readonly IFileSystem _fileSystem = FileSystem.Shared;
 
     [Fact]
     public void CanConvertHashBetweenFormats()
