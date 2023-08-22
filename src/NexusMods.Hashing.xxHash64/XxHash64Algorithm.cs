@@ -1,5 +1,7 @@
 using System;
 using System.Runtime.CompilerServices;
+using System.Runtime.Intrinsics;
+using System.Runtime.Intrinsics.X86;
 using static System.Numerics.BitOperations;
 
 namespace NexusMods.Hashing.xxHash64;
@@ -95,43 +97,83 @@ public struct XxHash64Algorithm
             throw new Exception("Input is not a multiple of 32");
 #endif
 
-        var tempA = _a;
-        var tempB = _b;
-        var tempC = _c;
-        var tempD = _d;
-
         fixed (byte* ptr = data)
         {
             var len = data.Length / 8;
-            var maxAddr = (ulong*)ptr + len;
-            var dataPtr = (ulong*)ptr;
 
-            while (dataPtr < maxAddr)
+            // This is replaced with inner branch at JIT time.
+#if NET8_0_OR_GREATER
+            if (Avx512DQ.IsSupported && Avx512F.IsSupported)
             {
-                tempA += dataPtr[0] * Primes64_1;
-                tempA = RotateLeft(tempA, 31);
-                tempA *= Primes64_0;
+                var stateVec = Vector256.Create(_a, _b, _c, _d);
+                var primes64Vec1 = Vector256.Create(Primes64_1);
+                var primes64Vec0 = Vector256.Create(Primes64_0);
 
-                tempB += dataPtr[1] * Primes64_1;
-                tempB = RotateLeft(tempB, 31);
-                tempB *= Primes64_0;
+                var maxAddr = ((ulong*)ptr + len) - 4;
+                var dataPtr = (ulong*)ptr;
 
-                tempC += dataPtr[2] * Primes64_1;
-                tempC = RotateLeft(tempC, 31);
-                tempC *= Primes64_0;
+                while (dataPtr <= maxAddr)
+                {
+                    var dataVec = Avx.LoadVector256(dataPtr);
+                    dataPtr += 4;
 
-                tempD += dataPtr[3] * Primes64_1;
-                tempD = RotateLeft(tempD, 31);
-                tempD *= Primes64_0;
+                    // Multiply by Primes64_1
+                    var mulResult = Avx512DQ.VL.MultiplyLow(dataVec, primes64Vec1);
 
-                dataPtr += 4;
+                    // Add multiply result to state
+                    stateVec = Avx2.Add(stateVec, mulResult);
+
+                    // Rotate state by 31
+                    stateVec = Avx512F.VL.RotateLeft(stateVec, 31);
+
+                    // Multiply state by Primes64_0
+                    stateVec = Avx512DQ.VL.MultiplyLow(stateVec, primes64Vec0);
+                }
+
+                _a = stateVec[0];
+                _b = stateVec[1];
+                _c = stateVec[2];
+                _d = stateVec[3];
             }
-        }
+            else
+            {
+#endif
+                var tempA = _a;
+                var tempB = _b;
+                var tempC = _c;
+                var tempD = _d;
 
-        _a = tempA;
-        _b = tempB;
-        _c = tempC;
-        _d = tempD;
+                var maxAddr = (ulong*)ptr + len;
+                var dataPtr = (ulong*)ptr;
+                while (dataPtr < maxAddr)
+                {
+                    tempA += dataPtr[0] * Primes64_1;
+                    tempA = RotateLeft(tempA, 31);
+                    tempA *= Primes64_0;
+
+                    tempB += dataPtr[1] * Primes64_1;
+                    tempB = RotateLeft(tempB, 31);
+                    tempB *= Primes64_0;
+
+                    tempC += dataPtr[2] * Primes64_1;
+                    tempC = RotateLeft(tempC, 31);
+                    tempC *= Primes64_0;
+
+                    tempD += dataPtr[3] * Primes64_1;
+                    tempD = RotateLeft(tempD, 31);
+                    tempD *= Primes64_0;
+
+                    dataPtr += 4;
+                }
+
+                _a = tempA;
+                _b = tempB;
+                _c = tempC;
+                _d = tempD;
+#if NET8_0_OR_GREATER
+            }
+#endif
+        }
 
         _bytesProcessed += (ulong)data.Length;
     }
