@@ -1,0 +1,15 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+    <PropertyGroup>
+        <TargetFramework>net7.0</TargetFramework>
+    </PropertyGroup>
+
+    <ItemGroup>
+        <PackageReference Include="NexusMods.Paths" Version="0.1.3" />
+        <PackageReference Include="Vogen" Version="3.0.20" />
+    </ItemGroup>
+
+    <ItemGroup>
+      <ProjectReference Include="..\NexusMods.Hashing.xxHash64\NexusMods.Hashing.xxHash64.csproj" />
+    </ItemGroup>
+</Project>

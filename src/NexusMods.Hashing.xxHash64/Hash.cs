@@ -8,7 +8,7 @@ namespace NexusMods.Hashing.xxHash64;
 /// <summary>
 /// Named object for an individual hash.
 /// </summary>
-[ValueObject<ulong>]
+[ValueObject(typeof(ulong))]
 public readonly partial struct Hash
 {
     /// <summary>

@@ -3,7 +3,7 @@ using System.Threading;
 using System.Threading.Tasks;
 using NexusMods.Paths;
 
-namespace NexusMods.Hashing.xxHash64;
+namespace NexusMods.Hashing.xxHash64.Paths;
 
 
 /// <summary>

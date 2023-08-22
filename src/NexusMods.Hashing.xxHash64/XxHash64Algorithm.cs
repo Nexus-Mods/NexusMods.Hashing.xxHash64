@@ -240,3 +240,4 @@ public struct XxHash64Algorithm
         return hashValue;
     }
 }
+

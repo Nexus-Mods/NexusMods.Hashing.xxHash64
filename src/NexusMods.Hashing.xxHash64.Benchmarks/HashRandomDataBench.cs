@@ -18,7 +18,7 @@ public class HashRandomDataBench
         Random.Shared.NextBytes(_data);
     }
 
-    [Params(1024, 1024 * 1024, 1024 * 1024 * 1024)]
+    [Params(1024)]
     // ReSharper disable once UnusedAutoPropertyAccessor.Global
     public int Size { get; set; }
 

@@ -1,3 +1,4 @@
+using NexusMods.Hashing.xxHash64.Paths;
 using NexusMods.Paths;
 
 namespace NexusMods.Hashing.xxHash64.Tests;

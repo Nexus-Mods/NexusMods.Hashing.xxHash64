@@ -1,10 +1,12 @@
 using System;
+using JetBrains.Annotations;
 
 namespace NexusMods.Hashing.xxHash64;
 
 /// <summary>
 /// Extensions related to <see cref="Span{T}"/>(s) and their heap sibling <see cref="Memory{T}"/>.
 /// </summary>
+[PublicAPI]
 public static class SpanExtensions
 {
     /// <summary>

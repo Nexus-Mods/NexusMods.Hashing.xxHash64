@@ -1,9 +1,11 @@
 <Project Sdk="Microsoft.NET.Sdk">
     <PropertyGroup>
+        <TargetFramework>net7.0</TargetFramework>
         <EnableXunitDependencyInjectionDefaultTestFrameworkAttribute>false</EnableXunitDependencyInjectionDefaultTestFrameworkAttribute>
     </PropertyGroup>
 
     <ItemGroup>
+        <ProjectReference Include="..\..\src\NexusMods.Hashing.xxHash64.Paths\NexusMods.Hashing.xxHash64.Paths.csproj" />
         <ProjectReference Include="..\..\src\NexusMods.Hashing.xxHash64\NexusMods.Hashing.xxHash64.csproj" />
     </ItemGroup>
 
