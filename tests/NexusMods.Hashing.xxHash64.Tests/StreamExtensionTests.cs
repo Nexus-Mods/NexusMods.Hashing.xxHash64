@@ -20,7 +20,7 @@ public class StreamExtensionTests
         var stream = new MemoryStream(_buffer);
         var hashValue = await stream.XxHash64Async(CancellationToken.None);
 
-        hashValue.Should().Be(MSHash(_buffer));
+        hashValue.Should().Be(Utility.MSHash(_buffer));
     }
 
 
@@ -34,14 +34,7 @@ public class StreamExtensionTests
             await stream2.WriteAsync(b);
         });
 
-        hashValue.Should().Be(MSHash(_buffer));
+        hashValue.Should().Be(Utility.MSHash(_buffer));
         stream2.ToArray().Should().BeEquivalentTo(stream.ToArray());
-    }
-
-    // ReSharper disable once InconsistentNaming
-    private Hash MSHash(byte[] data)
-    {
-        var bytes = System.IO.Hashing.XxHash64.Hash(data);
-        return Hash.From(BinaryPrimitives.ReadUInt64BigEndian(bytes));
     }
 }

@@ -55,6 +55,7 @@ public class HashTests
         var file = _fileSystem.GetKnownPath(KnownPath.CurrentDirectory).Combine($"tempFile{Guid.NewGuid()}");
         await file.WriteAllTextAsync(_knownString);
         (await file.XxHash64Async()).Should().Be(_knownHash);
+        (await file.MSXxHash64()).Should().Be(_knownHash); // sanity test against MSFT hasher.
     }
 
     [Fact]
@@ -68,6 +69,7 @@ public class HashTests
         }
         await file.WriteAllBytesAsync(emptyArray);
         (await file.XxHash64Async()).Should().Be(Hash.FromULong(0x54AC7E8D1810EC9D));
+        (await file.MSXxHash64()).Should().Be(Hash.FromULong(0x54AC7E8D1810EC9D)); // sanity test against MSFT hasher.
         file.Delete();
     }
 
@@ -85,8 +87,9 @@ public class HashTests
         var ms = new MemoryStream();
 
         var expectedHash = Hash.FromULong(0x54AC7E8D1810EC9D);
-
+        
         (await file.XxHash64Async(reportFn: async m => await ms.WriteAsync(m))).Should().Be(expectedHash);
+        (await file.MSXxHash64()).Should().Be(expectedHash);
         ms.ToArray().AsSpan().XxHash64().Should().Be(expectedHash);
         file.Delete();
     }
