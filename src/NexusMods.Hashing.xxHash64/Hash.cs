@@ -8,7 +8,14 @@ namespace NexusMods.Hashing.xxHash64;
 /// <summary>
 /// Named object for an individual hash.
 /// </summary>
-[ValueObject(typeof(ulong))]
+[ValueObject(typeof(ulong),
+    conversions:
+#if NET7_0_OR_GREATER
+    Conversions.Default
+#else
+    Conversions.TypeConverter
+#endif
+)]
 public readonly partial struct Hash
 {
     /// <summary>
@@ -67,6 +74,6 @@ public readonly partial struct Hash
     /// </summary>
     public static implicit operator long(Hash a)
     {
-        return BitConverter.ToInt64(BitConverter.GetBytes(a._value));
+        return BitConverter.ToInt64(BitConverter.GetBytes(a._value), 0);
     }
 }

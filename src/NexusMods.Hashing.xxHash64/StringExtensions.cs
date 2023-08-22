@@ -81,7 +81,7 @@ public static class StringExtensions
         var bytes = utf8.GetByteCount(text);
         using var mem = MemoryPool<byte>.Shared.Rent(bytes);
         var dataSpan = mem.Memory.Span[..bytes];
-        utf8.GetBytes(text, dataSpan);
+        utf8.GetBytes(text.AsSpan(), dataSpan);
         return dataSpan.XxHash64();
     }
 }
