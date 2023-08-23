@@ -40,8 +40,8 @@ public static class StringExtensions
     {
         for (var x = 0; x < bytes.Length; x++)
         {
-            outputBuf.DangerousGetReferenceAt(x * 2) = HexLookup[(bytes[x] >> 4)];
-            outputBuf.DangerousGetReferenceAt((x * 2) + 1) = HexLookup[bytes[x] & 0xF];
+            outputBuf.DangerousGetReferenceAt(x * 2) = HexLookup.DangerousGetReferenceAt((bytes[x] >> 4));
+            outputBuf.DangerousGetReferenceAt((x * 2) + 1) = HexLookup.DangerousGetReferenceAt(bytes[x] & 0xF);
         }
     }
 

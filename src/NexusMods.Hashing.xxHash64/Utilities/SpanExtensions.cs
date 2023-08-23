@@ -134,7 +134,7 @@ internal static class SpanExtensions
 #endif
     }
 
-        /// <summary>
+    /// <summary>
     ///     Returns a reference to an element at a specified index within a given <see cref="Span{T}" />, with no bounds
     ///     checks.
     /// </summary>
