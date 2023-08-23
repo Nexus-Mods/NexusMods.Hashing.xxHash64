@@ -1,5 +1,6 @@
 using System;
 using System.Runtime.CompilerServices;
+using NexusMods.Hashing.xxHash64.Utilities;
 using static System.Numerics.BitOperations;
 
 namespace NexusMods.Hashing.xxHash64;
@@ -225,7 +226,7 @@ public struct XxHash64Algorithm
 
                 for (var currentOffset = startOffset; currentOffset < endOffset; currentOffset += 1)
                 {
-                    hashValue ^= data[currentOffset] * Primes64_4;
+                    hashValue ^= data.DangerousGetReferenceAt(currentOffset) * Primes64_4;
                     hashValue = RotateLeft(hashValue, 11) * Primes64_0;
                 }
             }
