@@ -103,25 +103,28 @@ public struct XxHash64Algorithm
         fixed (byte* ptr = data)
         {
             var len = data.Length / 8;
+            var maxAddr = (ulong*)ptr + len;
             var dataPtr = (ulong*)ptr;
 
-            for (var currentIndex = 0; currentIndex < len; currentIndex += 4)
+            while (dataPtr < maxAddr)
             {
-                tempA += dataPtr[currentIndex] * Primes64_1;
+                tempA += dataPtr[0] * Primes64_1;
                 tempA = RotateLeft(tempA, 31);
                 tempA *= Primes64_0;
 
-                tempB += dataPtr[currentIndex + 1] * Primes64_1;
+                tempB += dataPtr[1] * Primes64_1;
                 tempB = RotateLeft(tempB, 31);
                 tempB *= Primes64_0;
 
-                tempC += dataPtr[currentIndex + 2] * Primes64_1;
+                tempC += dataPtr[2] * Primes64_1;
                 tempC = RotateLeft(tempC, 31);
                 tempC *= Primes64_0;
 
-                tempD += dataPtr[currentIndex + 3] * Primes64_1;
+                tempD += dataPtr[3] * Primes64_1;
                 tempD = RotateLeft(tempD, 31);
                 tempD *= Primes64_0;
+
+                dataPtr += 4;
             }
         }
 
