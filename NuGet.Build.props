@@ -11,9 +11,11 @@
         <PackageIcon>assets/icon.png</PackageIcon>
         <PackageLicenseExpression>GPL-3.0-only</PackageLicenseExpression>
         <PackageRequireLicenseAcceptance>true</PackageRequireLicenseAcceptance>
+        <SuppressTfmSupportBuildWarnings>true</SuppressTfmSupportBuildWarnings>
 
         <!-- This is the URL to the main project, not the individual package. -->
-        <PackageProjectUrl>https://github.com/Nexus-Mods/NexusMods.App</PackageProjectUrl>
+        <PackageProjectUrl>https://github.com/Nexus-Mods/NexusMods.Hashing.xxHash64</PackageProjectUrl>
+        <RepositoryUrl>https://github.com/Nexus-Mods/NexusMods.Hashing.xxHash64</RepositoryUrl>
         <GenerateDocumentationFile>true</GenerateDocumentationFile>
 
         <IncludeSymbols>true</IncludeSymbols>
