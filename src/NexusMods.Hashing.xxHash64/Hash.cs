@@ -1,7 +1,7 @@
 using System;
 using System.Buffers.Binary;
+using JetBrains.Annotations;
 using Vogen;
-
 
 namespace NexusMods.Hashing.xxHash64;
 
@@ -16,6 +16,7 @@ namespace NexusMods.Hashing.xxHash64;
     Conversions.TypeConverter
 #endif
 )]
+[PublicAPI]
 public readonly partial struct Hash
 {
     /// <summary>
@@ -72,8 +73,5 @@ public readonly partial struct Hash
     /// <summary>
     /// Converts a hash back to a long.
     /// </summary>
-    public static implicit operator long(Hash a)
-    {
-        return BitConverter.ToInt64(BitConverter.GetBytes(a._value), 0);
-    }
+    public static implicit operator long(Hash a) => unchecked((long)a.Value);
 }

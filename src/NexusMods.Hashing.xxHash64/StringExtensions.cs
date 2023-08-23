@@ -3,6 +3,7 @@ using System.Buffers;
 using System.Linq;
 using System.Runtime.CompilerServices;
 using System.Text;
+using JetBrains.Annotations;
 using NexusMods.Hashing.xxHash64.Utilities;
 
 namespace NexusMods.Hashing.xxHash64;
@@ -10,6 +11,7 @@ namespace NexusMods.Hashing.xxHash64;
 /// <summary>
 /// Hashing related extensions for strings that might come in handy down the road.
 /// </summary>
+[PublicAPI]
 public static class StringExtensions
 {
     private static readonly char[] HexLookup = "0123456789ABCDEF".ToArray();

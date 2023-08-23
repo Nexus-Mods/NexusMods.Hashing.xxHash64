@@ -28,7 +28,7 @@ namespace System.Numerics
 /// <summary>
 /// Polyfills for missing methods in older versions of .NET.
 /// </summary>
-public static class PolyfillExtensions
+internal static class PolyfillExtensions
 {
     /// <summary>Asynchronously writes a sequence of bytes to the current stream, advances the current position within this stream by the number of bytes written, and monitors cancellation requests.</summary>
     /// <param name="stream">The stream to write to.</param>
