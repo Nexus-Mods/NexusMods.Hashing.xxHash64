@@ -102,12 +102,17 @@ public static class StringExtensions
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
     private static int GetHexValue(char hexChar)
     {
-        return hexChar switch
-        {
-            >= '0' and <= '9' => hexChar - '0',
-            >= 'a' and <= 'f' => hexChar - 'a' + 10,
-            >= 'A' and <= 'F' => hexChar - 'A' + 10,
-            _ => 0
-        };
+        // Do not refactor into switch, this gets optimised better.
+        // ReSharper disable once ConvertIfStatementToSwitchStatement
+        if (hexChar is >= '0' and <= '9')
+            return hexChar - '0';
+
+        if (hexChar is >= 'a' and <= 'f')
+            return hexChar - 'a' + 10;
+
+        if (hexChar is >= 'A' and <= 'F')
+            return hexChar - 'A' + 10;
+
+        return 0;
     }
 }
