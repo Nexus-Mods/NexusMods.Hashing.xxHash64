@@ -24,12 +24,12 @@ namespace System.Numerics
 }
 #endif
 
+#if !NETCOREAPP3_1_OR_GREATER
 /// <summary>
 /// Polyfills for missing methods in older versions of .NET.
 /// </summary>
-public static class Polyfills
+public static class PolyfillExtensions
 {
-    #if !NET7_0_OR_GREATER
     /// <summary>Asynchronously writes a sequence of bytes to the current stream, advances the current position within this stream by the number of bytes written, and monitors cancellation requests.</summary>
     /// <param name="stream">The stream to write to.</param>
     /// <param name="buffer">The region of memory to write data from.</param>
@@ -41,7 +41,7 @@ public static class Polyfills
         CancellationToken cancellationToken = default)
     {
         if (MemoryMarshal.TryGetArray(buffer, out var segment))
-            return stream.WriteAsync(segment.Array, segment.Offset, segment.Count, cancellationToken);
+            return stream.WriteAsync(segment.Array!, segment.Offset, segment.Count, cancellationToken);
 
         var numArray = ArrayPool<byte>.Shared.Rent(buffer.Length);
         buffer.Span.CopyTo((Span<byte>) numArray);
@@ -70,8 +70,7 @@ public static class Polyfills
         Memory<byte> buffer,
         CancellationToken cancellationToken = default)
     {
-        ArraySegment<byte> segment;
-        if (MemoryMarshal.TryGetArray(buffer, out segment))
+        if (MemoryMarshal.TryGetArray(buffer, out ArraySegment<byte> segment))
             return stream.ReadAsync(segment.Array, segment.Offset, segment.Count, cancellationToken);
 
         var numArray = ArrayPool<byte>.Shared.Rent(buffer.Length);
@@ -109,5 +108,5 @@ public static class Polyfills
         fixed (byte* bytes1 = &MemoryMarshal.GetReference(bytes))
             return encoding.GetBytes(chars1, chars.Length, bytes1, bytes.Length);
     }
-    #endif
 }
+#endif

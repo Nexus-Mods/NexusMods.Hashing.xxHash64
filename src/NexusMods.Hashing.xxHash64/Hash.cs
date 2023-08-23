@@ -10,7 +10,7 @@ namespace NexusMods.Hashing.xxHash64;
 /// </summary>
 [ValueObject(typeof(ulong),
     conversions:
-#if NET7_0_OR_GREATER
+#if NETCOREAPP3_1_OR_GREATER
     Conversions.Default
 #else
     Conversions.TypeConverter
