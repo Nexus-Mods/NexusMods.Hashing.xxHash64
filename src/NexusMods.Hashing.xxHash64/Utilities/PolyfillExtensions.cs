@@ -1,3 +1,4 @@
+// ReSharper disable RedundantUsingDirective
 using System;
 using System.Buffers;
 using System.IO;
@@ -9,7 +10,7 @@ using System.Threading.Tasks;
 
 // ReSharper disable CheckNamespace
 
-#if !NET7_0_OR_GREATER
+#if !NETCOREAPP2_0_OR_GREATER
 namespace System.Numerics
 {
     internal static class BitOperations

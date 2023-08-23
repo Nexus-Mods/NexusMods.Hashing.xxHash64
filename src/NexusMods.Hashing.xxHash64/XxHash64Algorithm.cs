@@ -206,7 +206,7 @@ public struct XxHash64Algorithm
             // In 8-byte chunks, process all full chunks
             for (var x = 0; x < data.Length / 8; ++x)
             {
-                hashValue ^= RotateLeft(data[(x * 8)..].ToUInt64Fast() * Primes64_1, 31) * Primes64_0;
+                hashValue ^= RotateLeft(data.SliceFast((x * 8)..).ToUInt64Fast() * Primes64_1, 31) * Primes64_0;
                 hashValue = RotateLeft(hashValue, 27) * Primes64_0 + Primes64_3;
             }
 
@@ -215,7 +215,7 @@ public struct XxHash64Algorithm
             {
                 var startOffset = remainderLength - remainderLength % 8;
 
-                hashValue ^= data[startOffset..].ToUInt32Fast() * Primes64_0;
+                hashValue ^= data.SliceFast(startOffset..).ToUInt32Fast() * Primes64_0;
                 hashValue = RotateLeft(hashValue, 23) * Primes64_1 + Primes64_2;
             }
 
