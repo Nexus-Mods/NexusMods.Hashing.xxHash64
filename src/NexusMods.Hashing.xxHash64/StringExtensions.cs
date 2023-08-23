@@ -1,9 +1,9 @@
 using System;
 using System.Buffers;
-using System.Globalization;
 using System.Linq;
 using System.Runtime.CompilerServices;
 using System.Text;
+using NexusMods.Hashing.xxHash64.Utilities;
 
 namespace NexusMods.Hashing.xxHash64;
 
@@ -14,18 +14,17 @@ public static class StringExtensions
 {
     private static readonly char[] HexLookup = "0123456789ABCDEF".ToArray();
 
-    // TODO: I can elide bounds checks here, let me do it later - Sew https://github.com/Nexus-Mods/NexusMods.App/issues/214
-
     /// <summary>
     /// Converts the given bytes to a hexadecimal string.
     /// </summary>
     /// <param name="bytes">The bytes to convert.</param>
     /// <returns>The string in question.</returns>
-    public static string ToHex(this ReadOnlySpan<byte> bytes)
+    public static unsafe string ToHex(this ReadOnlySpan<byte> bytes)
     {
         Span<char> outputBuf = stackalloc char[bytes.Length * 2];
         ToHex(bytes, outputBuf);
-        return new string(outputBuf);
+        fixed (char* outputPtr = outputBuf)
+            return new string(outputPtr, 0, outputBuf.Length);
     }
 
     /// <summary>
@@ -39,8 +38,8 @@ public static class StringExtensions
     {
         for (var x = 0; x < bytes.Length; x++)
         {
-            outputBuf[x * 2] = HexLookup[(bytes[x] >> 4)];
-            outputBuf[(x * 2) + 1] = HexLookup[bytes[x] & 0xF];
+            outputBuf.DangerousGetReferenceAt(x * 2) = HexLookup[(bytes[x] >> 4)];
+            outputBuf.DangerousGetReferenceAt((x * 2) + 1) = HexLookup[bytes[x] & 0xF];
         }
     }
 
@@ -49,23 +48,19 @@ public static class StringExtensions
     /// </summary>
     /// <param name="hex">The hex string itself.</param>
     /// <param name="bytes">The bytes for the hex string.</param>
-    public static void FromHex(this string hex, Span<byte> bytes)
-    {
-        hex.AsSpan().FromHex(bytes);
-    }
+    public static void FromHex(this string hex, Span<byte> bytes) => hex.AsSpan().FromHex(bytes);
 
     /// <summary>
     /// Converts a hex string span of characters back to its corresponding bytes.
     /// </summary>
     /// <param name="hex">The hex string itself.</param>
     /// <param name="bytes">The bytes for the hex string.</param>
-    public static void FromHex(this ReadOnlySpan<char> hex, Span<byte> bytes)
+    public static unsafe void FromHex(this ReadOnlySpan<char> hex, Span<byte> bytes)
     {
-        // TODO: Speed this up. The BCL's version is slow because it has to account for many possible format; while ours is made by us and should be clear. https://github.com/Nexus-Mods/NexusMods.App/issues/214
-        for (var i = 0; i < bytes.Length; i++)
+        fixed (char* hexBytes = hex)
         {
-            var hexOffset = i * 2;
-            bytes[i] = byte.Parse(hex[hexOffset..(hexOffset + 2)], NumberStyles.HexNumber);
+            for (var i = 0; i < bytes.Length; i++)
+                bytes[i] = ParseHexByte(&hexBytes[i * 2]);
         }
     }
 
@@ -78,10 +73,39 @@ public static class StringExtensions
     {
         // This is only used in tests right now.
         var utf8 = Encoding.UTF8;
-        var bytes = utf8.GetByteCount(text);
-        using var mem = MemoryPool<byte>.Shared.Rent(bytes);
-        var dataSpan = mem.Memory.Span[..bytes];
-        utf8.GetBytes(text.AsSpan(), dataSpan);
-        return dataSpan.XxHash64();
+        var numBytes = utf8.GetByteCount(text);
+
+        if (numBytes >= 1024)
+        {
+
+            using var mem = MemoryPool<byte>.Shared.Rent(numBytes);
+            var dataSpan = mem.Memory.Span[..numBytes];
+            utf8.GetBytes(text.AsSpan(), dataSpan);
+            return dataSpan.XxHash64();
+        }
+        else
+        {
+            Span<byte> dataSpan = stackalloc byte[numBytes];
+            utf8.GetBytes(text.AsSpan(), dataSpan);
+            return dataSpan.XxHash64();
+        }
+    }
+
+    [MethodImpl(MethodImplOptions.AggressiveInlining)]
+    private static unsafe byte ParseHexByte(char* hex)
+    {
+        return (byte)((GetHexValue(hex[0]) << 4) + GetHexValue(hex[1]));
+    }
+
+    [MethodImpl(MethodImplOptions.AggressiveInlining)]
+    private static int GetHexValue(char hexChar)
+    {
+        return hexChar switch
+        {
+            >= '0' and <= '9' => hexChar - '0',
+            >= 'a' and <= 'f' => hexChar - 'a' + 10,
+            >= 'A' and <= 'F' => hexChar - 'A' + 10,
+            _ => 0
+        };
     }
 }
