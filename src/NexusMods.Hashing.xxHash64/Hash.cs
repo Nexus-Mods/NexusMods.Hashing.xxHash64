@@ -1,14 +1,22 @@
 using System;
 using System.Buffers.Binary;
+using JetBrains.Annotations;
 using Vogen;
-
 
 namespace NexusMods.Hashing.xxHash64;
 
 /// <summary>
 /// Named object for an individual hash.
 /// </summary>
-[ValueObject<ulong>]
+[ValueObject(typeof(ulong),
+    conversions:
+#if NETCOREAPP3_1_OR_GREATER
+    Conversions.Default
+#else
+    Conversions.TypeConverter
+#endif
+)]
+[PublicAPI]
 public readonly partial struct Hash
 {
     /// <summary>
@@ -65,8 +73,5 @@ public readonly partial struct Hash
     /// <summary>
     /// Converts a hash back to a long.
     /// </summary>
-    public static implicit operator long(Hash a)
-    {
-        return BitConverter.ToInt64(BitConverter.GetBytes(a._value));
-    }
+    public static implicit operator long(Hash a) => unchecked((long)a.Value);
 }

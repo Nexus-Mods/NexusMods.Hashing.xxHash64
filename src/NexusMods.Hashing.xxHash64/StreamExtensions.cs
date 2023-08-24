@@ -3,12 +3,14 @@ using System.Buffers;
 using System.IO;
 using System.Threading;
 using System.Threading.Tasks;
+using JetBrains.Annotations;
 
 namespace NexusMods.Hashing.xxHash64;
 
 /// <summary>
 /// Hashing related extensions tied to <see cref="Stream"/>(s).
 /// </summary>
+[PublicAPI]
 public static class StreamExtensions
 {
     /// <summary>

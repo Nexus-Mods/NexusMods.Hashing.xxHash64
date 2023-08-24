@@ -1,5 +1,6 @@
 using System;
 using System.Runtime.CompilerServices;
+using NexusMods.Hashing.xxHash64.Utilities;
 using static System.Numerics.BitOperations;
 
 namespace NexusMods.Hashing.xxHash64;
@@ -205,7 +206,7 @@ public struct XxHash64Algorithm
             // In 8-byte chunks, process all full chunks
             for (var x = 0; x < data.Length / 8; ++x)
             {
-                hashValue ^= RotateLeft(BitConverter.ToUInt64(data[(x * 8)..]) * Primes64_1, 31) * Primes64_0;
+                hashValue ^= RotateLeft(data.SliceFast((x * 8)..).ToUInt64Fast() * Primes64_1, 31) * Primes64_0;
                 hashValue = RotateLeft(hashValue, 27) * Primes64_0 + Primes64_3;
             }
 
@@ -214,7 +215,7 @@ public struct XxHash64Algorithm
             {
                 var startOffset = remainderLength - remainderLength % 8;
 
-                hashValue ^= BitConverter.ToUInt32(data[startOffset..]) * Primes64_0;
+                hashValue ^= data.SliceFast(startOffset..).ToUInt32Fast() * Primes64_0;
                 hashValue = RotateLeft(hashValue, 23) * Primes64_1 + Primes64_2;
             }
 
@@ -225,7 +226,7 @@ public struct XxHash64Algorithm
 
                 for (var currentOffset = startOffset; currentOffset < endOffset; currentOffset += 1)
                 {
-                    hashValue ^= data[currentOffset] * Primes64_4;
+                    hashValue ^= data.DangerousGetReferenceAt(currentOffset) * Primes64_4;
                     hashValue = RotateLeft(hashValue, 11) * Primes64_0;
                 }
             }
@@ -240,3 +241,4 @@ public struct XxHash64Algorithm
         return hashValue;
     }
 }
+

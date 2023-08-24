@@ -1,5 +1,3 @@
-using FluentAssertions;
-
 namespace NexusMods.Hashing.xxHash64.Tests;
 
 public class StringExtensionTest

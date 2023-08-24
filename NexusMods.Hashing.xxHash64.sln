@@ -30,6 +30,10 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NexusMods.Hashing.xxHash64.
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NexusMods.Hashing.xxHash64.Benchmarks", "src\NexusMods.Hashing.xxHash64.Benchmarks\NexusMods.Hashing.xxHash64.Benchmarks.csproj", "{DB2791E2-530D-44CF-8F16-07A55A08BA7E}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NexusMods.Hashing.xxHash64.Paths", "src\NexusMods.Hashing.xxHash64.Paths\NexusMods.Hashing.xxHash64.Paths.csproj", "{589D89B2-DB0E-4CD5-9195-8173B235A8F8}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NexusMods.Hashing.xxHash64.Paths.Tests", "tests\NexusMods.Hashing.xxHash64.Paths.Tests\NexusMods.Hashing.xxHash64.Paths.Tests.csproj", "{A7E36C18-C1A5-4781-8D19-7DDF28A1264B}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -39,6 +43,8 @@ Global
 		{923E9347-1031-4EA4-8997-94D19E813CFF} = {0377EBE6-F147-4233-86AD-32C821B9567E}
 		{4E54BF1E-284D-472E-9F37-C7DE4BAD77A7} = {6ED01F9D-5E12-4EB2-9601-64A2ADC719DE}
 		{DB2791E2-530D-44CF-8F16-07A55A08BA7E} = {0377EBE6-F147-4233-86AD-32C821B9567E}
+		{589D89B2-DB0E-4CD5-9195-8173B235A8F8} = {0377EBE6-F147-4233-86AD-32C821B9567E}
+		{A7E36C18-C1A5-4781-8D19-7DDF28A1264B} = {6ED01F9D-5E12-4EB2-9601-64A2ADC719DE}
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
 		{923E9347-1031-4EA4-8997-94D19E813CFF}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
@@ -53,5 +59,13 @@ Global
 		{DB2791E2-530D-44CF-8F16-07A55A08BA7E}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{DB2791E2-530D-44CF-8F16-07A55A08BA7E}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{DB2791E2-530D-44CF-8F16-07A55A08BA7E}.Release|Any CPU.Build.0 = Release|Any CPU
+		{589D89B2-DB0E-4CD5-9195-8173B235A8F8}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{589D89B2-DB0E-4CD5-9195-8173B235A8F8}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{589D89B2-DB0E-4CD5-9195-8173B235A8F8}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{589D89B2-DB0E-4CD5-9195-8173B235A8F8}.Release|Any CPU.Build.0 = Release|Any CPU
+		{A7E36C18-C1A5-4781-8D19-7DDF28A1264B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{A7E36C18-C1A5-4781-8D19-7DDF28A1264B}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{A7E36C18-C1A5-4781-8D19-7DDF28A1264B}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{A7E36C18-C1A5-4781-8D19-7DDF28A1264B}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 EndGlobal
