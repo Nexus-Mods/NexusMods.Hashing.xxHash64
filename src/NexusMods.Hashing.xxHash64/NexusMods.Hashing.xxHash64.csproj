@@ -5,6 +5,11 @@
       <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
       <Title>NexusMods' xxHash64 Library</Title>
       <Description>Nexus Mods' Implementation of the xxHash64 algorithm.</Description>
+
+      <!-- Override NuGet.Build.props -->
+      <PackageProjectUrl>https://github.com/Nexus-Mods/NexusMods.Hashing.xxHash64</PackageProjectUrl>
+      <RepositoryUrl>https://github.com/Nexus-Mods/NexusMods.Hashing.xxHash64</RepositoryUrl>
+      <SuppressTfmSupportBuildWarnings>true</SuppressTfmSupportBuildWarnings>
     </PropertyGroup>
     <ItemGroup>
       <PackageReference Include="PolySharp" Version="1.13.1">
