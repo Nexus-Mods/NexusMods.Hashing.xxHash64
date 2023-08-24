@@ -2,6 +2,8 @@
 
     <PropertyGroup>
         <TargetFramework>net7.0</TargetFramework>
+        <Title>NexusMods.Paths Extensions for NexusMods' xxHash64 Library</Title>
+        <Description>Extension methods that combine NexusMods.Paths and NexusMods.Hashing.xxHash64.</Description>
     </PropertyGroup>
 
     <ItemGroup>

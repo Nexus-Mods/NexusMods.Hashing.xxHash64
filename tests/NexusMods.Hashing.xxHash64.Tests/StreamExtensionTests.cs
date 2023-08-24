@@ -1,4 +1,5 @@
 using System.Buffers.Binary;
+using System.IO.Hashing;
 using FluentAssertions;
 
 namespace NexusMods.Hashing.xxHash64.Tests;
