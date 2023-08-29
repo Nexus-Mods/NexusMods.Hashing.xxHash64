@@ -84,6 +84,12 @@ public class HashTests
         File.Delete(file);
     }
 
+    [Fact]
+    public unsafe void HashIs8Bytes()
+    {
+        sizeof(Hash).Should().Be(8);
+    }
+
     private static byte[] CreateTestArray()
     {
         var emptyArray = new byte[1024 * 1024 * 10];

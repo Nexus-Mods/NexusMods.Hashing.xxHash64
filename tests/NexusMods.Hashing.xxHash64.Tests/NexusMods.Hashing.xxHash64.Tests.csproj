@@ -2,6 +2,7 @@
     <PropertyGroup>
         <TargetFrameworks>net7.0;netcoreapp3.1</TargetFrameworks>
         <EnableXunitDependencyInjectionDefaultTestFrameworkAttribute>false</EnableXunitDependencyInjectionDefaultTestFrameworkAttribute>
+        <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
     </PropertyGroup>
 
     <ItemGroup>
