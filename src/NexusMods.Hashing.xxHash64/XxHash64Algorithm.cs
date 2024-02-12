@@ -1,5 +1,6 @@
 using System;
 using System.Runtime.CompilerServices;
+using JetBrains.Annotations;
 using NexusMods.Hashing.xxHash64.Utilities;
 using static System.Numerics.BitOperations;
 
@@ -48,7 +49,7 @@ public struct XxHash64Algorithm
     /// <summary>
     /// Creates a new implementation of the XxHash64 hasher.
     /// </summary>
-    /// <param name="seed"></param>
+    /// <param name="seed">The seed for the hashing function.</param>
     public XxHash64Algorithm(ulong seed)
     {
         _seed = seed;
@@ -60,21 +61,29 @@ public struct XxHash64Algorithm
     }
 
     /// <summary>
+    /// Creates a new implementation of the XxHash64 hasher with a default seed of 0.
+    /// </summary>
+    [PublicAPI]
+    public XxHash64Algorithm() : this(0) { }
+
+    /// <summary>
     /// Hashes the given span of bytes.
     /// </summary>
     /// <param name="data">The complete data to hash.</param>
+    /// <param name="seed">The seed for the hash.</param>
     /// <returns>Hash for the given bytes.</returns>
     /// <remarks>
     ///     Assumes the given bytes form a complete object you want to hash.
     /// </remarks>
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
-    public ulong HashBytes(ReadOnlySpan<byte> data)
+    public static ulong HashBytes(ReadOnlySpan<byte> data, ulong seed = 0)
     {
+        var hash = new XxHash64Algorithm(seed);
         var initialSize = (data.Length >> 5) << 5;
         if (initialSize > 0)
-            TransformByteGroupsInternal(data[..initialSize]);
+            hash.TransformByteGroupsInternal(data[..initialSize]);
 
-        return FinalizeHashValueInternal(data[initialSize..]);
+        return hash.FinalizeHashValueInternal(data[initialSize..]);
     }
 
     /// <summary>
