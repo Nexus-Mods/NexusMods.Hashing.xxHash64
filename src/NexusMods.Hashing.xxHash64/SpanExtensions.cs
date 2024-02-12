@@ -23,11 +23,7 @@ public static class SpanExtensions
     /// </summary>
     /// <param name="data">The data to hash.</param>
     /// <returns>Hash for the given data.</returns>
-    public static Hash XxHash64(this ReadOnlySpan<byte> data)
-    {
-        var algo = new XxHash64Algorithm(0);
-        return Hash.From(algo.HashBytes(data));
-    }
+    public static Hash XxHash64(this ReadOnlySpan<byte> data) => Hash.From(XxHash64Algorithm.HashBytes(data));
 
     /// <summary>
     /// Hashes the given <see cref="Memory{T}"/> of bytes using xxHash64.

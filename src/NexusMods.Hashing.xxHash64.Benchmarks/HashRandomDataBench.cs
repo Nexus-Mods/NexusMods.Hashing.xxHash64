@@ -23,11 +23,7 @@ public class HashRandomDataBench
     public int Size { get; set; }
 
     [Benchmark]
-    public ulong NexusHash()
-    {
-        var algo = new XxHash64Algorithm(0);
-        return algo.HashBytes(_data.AsSpan()[..Size]);
-    }
+    public ulong NexusHash() => XxHash64Algorithm.HashBytes(_data.AsSpan()[..Size]);
 
     [Benchmark]
     public unsafe ulong ExtensionsHashingBench()
