@@ -1,5 +1,6 @@
 using System;
 using System.Runtime.CompilerServices;
+using JetBrains.Annotations;
 using NexusMods.Hashing.xxHash64.Utilities;
 using static System.Numerics.BitOperations;
 
@@ -62,6 +63,7 @@ public struct XxHash64Algorithm
     /// <summary>
     /// Creates a new implementation of the XxHash64 hasher with a default seed of 0.
     /// </summary>
+    [PublicAPI]
     public XxHash64Algorithm() : this(0) { }
 
     /// <summary>
