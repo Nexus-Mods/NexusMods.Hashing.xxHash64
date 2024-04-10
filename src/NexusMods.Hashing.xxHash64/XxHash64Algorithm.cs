@@ -29,6 +29,12 @@ namespace NexusMods.Hashing.xxHash64;
 // ReSharper disable once InconsistentNaming
 public struct XxHash64Algorithm
 {
+    /// <summary>
+    ///     The hash of an empty, 0 byte file with default seed 0.
+    /// </summary>
+    /// <remarks>This is valid for both little, and big endian.</remarks>
+    public const ulong HashOfEmptyFile = 17241709254077376921;
+
     // ReSharper disable InconsistentNaming
     private const ulong Primes64_0 = 11400714785074694791UL;
     private const ulong Primes64_1 = 14029467366897019727UL;
