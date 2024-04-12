@@ -1,8 +1,7 @@
 <Project Sdk="Microsoft.NET.Sdk">
     <!-- NuGet Package Shared Details -->
     <PropertyGroup>
-      <TargetFrameworks>netstandard2.0;netcoreapp3.1;net5.0;net7.0</TargetFrameworks>
-      <TargetFramework></TargetFramework> <!-- This is intended, to override Directory.Build.props do not remove -->
+      <TargetFramework>net7.0</TargetFramework>
       <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
       <Title>NexusMods' xxHash64 Library</Title>
       <Description>Nexus Mods' Implementation of the xxHash64 algorithm.</Description>
@@ -13,12 +12,9 @@
       <SuppressTfmSupportBuildWarnings>true</SuppressTfmSupportBuildWarnings>
     </PropertyGroup>
     <ItemGroup>
-      <PackageReference Include="PolySharp" Version="1.13.1">
-        <PrivateAssets>all</PrivateAssets>
-        <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
-      </PackageReference>
       <PackageReference Include="System.Memory" Version="4.5.5" Condition="'$(TargetFramework)' == 'netstandard2.0'" />
-      <PackageReference Include="Vogen" Version="3.0.20" />
+      <PackageReference Include="TransparentValueObjects" Version="1.0.1" />
+      <PackageReference Update="JetBrains.Annotations" Version="2023.3.0" />
     </ItemGroup>
     <Import Project="$([MSBuild]::GetPathOfFileAbove('NuGet.Build.props', '$(MSBuildThisFileDirectory)../'))" />
 </Project>

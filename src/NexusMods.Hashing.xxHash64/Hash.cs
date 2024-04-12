@@ -1,22 +1,15 @@
 using System;
 using System.Buffers.Binary;
 using JetBrains.Annotations;
-using Vogen;
+using TransparentValueObjects;
 
 namespace NexusMods.Hashing.xxHash64;
 
 /// <summary>
 /// Named object for an individual hash.
 /// </summary>
-[ValueObject(typeof(ulong),
-    conversions:
-#if NETCOREAPP3_1_OR_GREATER
-    Conversions.Default
-#else
-    Conversions.TypeConverter
-#endif
-)]
 [PublicAPI]
+[ValueObject<ulong>]
 public readonly partial struct Hash
 {
     /// <summary>
@@ -66,7 +59,7 @@ public readonly partial struct Hash
     public string ToHex()
     {
         Span<byte> buffer = stackalloc byte[8];
-        BinaryPrimitives.WriteUInt64BigEndian(buffer, _value);
+        BinaryPrimitives.WriteUInt64BigEndian(buffer, Value);
         return ((ReadOnlySpan<byte>)buffer).ToHex();
     }
 
