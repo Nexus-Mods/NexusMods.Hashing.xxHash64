@@ -12,10 +12,6 @@
     <ItemGroup>
       <PackageReference Include="System.IO.Hashing" Version="9.0.0-preview.3.24172.9" />
       <PackageReference Update="JetBrains.Annotations" Version="2023.3.0" />
-      <PackageReference Update="Moq" Version="4.20.70" />
-      <PackageReference Update="AutoFixture" Version="5.0.0-preview0010" />
-      <PackageReference Update="AutoFixture.AutoMoq" Version="5.0.0-preview0010" />
-      <PackageReference Update="AutoFixture.Xunit2" Version="5.0.0-preview0010" />
       <PackageReference Update="FluentAssertions" Version="7.0.0-alpha.3" />
       <PackageReference Update="FluentAssertions.OneOf" Version="0.0.6-beta01" />
       <PackageReference Update="FluentAssertions.Analyzers" Version="0.31.0">
