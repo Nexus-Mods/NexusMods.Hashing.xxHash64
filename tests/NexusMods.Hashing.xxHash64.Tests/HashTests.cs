@@ -26,13 +26,13 @@ public class HashTests
         var hash2 = Hash.FromULong(1);
         var hash3 = Hash.FromULong(2);
 
-        hash1.Should().BeLessThan(hash2);
-        hash2.Should().BeLessThan(hash3);
+        hash1.CompareTo(hash2).Should().BeLessThan(0);
+        hash2.CompareTo(hash3).Should().BeLessThan(0);
 
         hash1.Should().Be(hash1);
         hash1.Should().NotBe(hash2);
 
-        hash1.Should().BeRankedEquallyTo(hash1);
+        hash1.Should().Be(hash1);
 
         Assert.True(hash1 != hash2);
         Assert.False(hash1 == hash2);
@@ -48,7 +48,7 @@ public class HashTests
     [Fact]
     public async Task CanHashFile()
     {
-        var file = Path.Combine(Environment.CurrentDirectory, $"tempFile{Guid.NewGuid()}");
+        var file = Path.Combine(Environment.CurrentDirectory, $"tempFile_{nameof(CanHashFile)}_{Guid.NewGuid()}");
         await File.WriteAllTextAsync(file, KnownString);
 
         (await file.XxHash64Async()).Should().Be(KnownHash);
@@ -58,7 +58,7 @@ public class HashTests
     [Fact]
     public async Task CanHashLargeFile()
     {
-        var file = Path.Combine(Environment.CurrentDirectory, $"tempFile{Guid.NewGuid()}");
+        var file = Path.Combine(Environment.CurrentDirectory, $"tempFile_{nameof(CanHashLargeFile)}_{Guid.NewGuid()}");
         var emptyArray = CreateTestArray();
 
         await File.WriteAllBytesAsync(file, emptyArray);
@@ -70,17 +70,18 @@ public class HashTests
     [Fact]
     public async Task CanHashLargeFileWithReporting()
     {
-        var file = Path.Combine(Environment.CurrentDirectory, $"tempFile{Guid.NewGuid()}");
+        var file = Path.Combine(Environment.CurrentDirectory, $"tempFile_{nameof(CanHashLargeFileWithReporting)}_{Guid.NewGuid()}");
         var emptyArray = CreateTestArray();
 
         await File.WriteAllBytesAsync(file, emptyArray);
         var ms = new MemoryStream();
         var expectedHash = Hash.FromULong(0x54AC7E8D1810EC9D);
 
-        await using var stream = new FileStream(file, FileMode.OpenOrCreate);
+        await using var stream = new FileStream(file, FileMode.Open, FileAccess.Read);
         (await stream.XxHash64Async(reportFn: async m => await ms.WriteAsync(m))).Should().Be(expectedHash);
         (await file.MSXxHash64()).Should().Be(expectedHash);
         ms.ToArray().AsSpan().XxHash64().Should().Be(expectedHash);
+        await stream.DisposeAsync();
         File.Delete(file);
     }
 

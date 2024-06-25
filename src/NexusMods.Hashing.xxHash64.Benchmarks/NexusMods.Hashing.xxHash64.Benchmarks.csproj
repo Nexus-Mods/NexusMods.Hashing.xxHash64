@@ -13,8 +13,9 @@
     </ItemGroup>
 
     <ItemGroup>
-      <PackageReference Include="BenchmarkDotNet" Version="0.13.7" />
-      <PackageReference Include="System.IO.Hashing" Version="7.0.0" />
+      <PackageReference Include="BenchmarkDotNet" Version="0.13.12" />
+      <PackageReference Include="System.IO.Hashing" Version="9.0.0-preview.3.24172.9" />
+      <PackageReference Update="JetBrains.Annotations" Version="2023.3.0" />
     </ItemGroup>
 
 </Project>
