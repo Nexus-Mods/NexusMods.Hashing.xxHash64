@@ -12,7 +12,7 @@
     </PropertyGroup>
 
     <ItemGroup>
-        <PackageReference Include="NexusMods.Paths" Version="0.9.1" />
+        <PackageReference Include="NexusMods.Paths" Version="0.9.5" />
         <PackageReference Include="TransparentValueObjects" Version="1.0.1" />
         <PackageReference Update="JetBrains.Annotations" Version="2023.3.0" />
     </ItemGroup>
